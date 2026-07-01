@@ -90,6 +90,13 @@ dd{color:var(--navy);font-size:0.9rem;margin:3px 0 0}
 body.dark-page .page-intro h1{color:#ffffff}
 body.dark-page .page-intro>p{color:rgba(255,255,255,0.55)}
 
+/* REGISTRY GROUPS (Professors: Subject / Jury subsections) */
+.registry-group{padding-bottom:36px}
+.registry-group-heading{margin-bottom:18px;padding-bottom:14px;border-bottom:1px solid var(--border)}
+.registry-group-heading .kicker{margin-bottom:6px}
+.registry-group-desc{color:var(--mist);font-size:0.88rem;max-width:640px}
+body.dark-page .registry-group-desc{color:rgba(255,255,255,0.55)}
+
 /* CARDS GRID */
 .cards-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;padding-bottom:16px}
 .id-card{position:relative;overflow:hidden;min-height:440px;padding:18px;border:1px solid var(--border);border-radius:10px;background:#ffffff;cursor:pointer;transition:transform 200ms ease,border-color 200ms ease,box-shadow 200ms ease}
@@ -2308,12 +2315,20 @@ this project contains three exhibition halls , a library and a theater and the e
 
 <!-- ═══════════════════════════════════════════════════════════
      PROFESSORS  —  Edit each professor block independently.
+
+     GROUPS:
+     Each professor belongs to one or both groups via data-groups
+     (comma-separated): "material" = Subject/Course Professors,
+     "jury" = Jury Committee.
      ══════════════════════════════════════════════════════════ -->
 <template id="all-professors">
 
+  <!-- ════════ SUBJECT PROFESSORS (also members of the Jury) ════════ -->
+
   <!-- ──────────────────────────────────────── Professor 1 -->
   <div id="professor-1"
-       data-id="Prof. Mohamed Emad Noureldin">
+       data-id="Prof. Mohamed Emad Noureldin"
+       data-groups="material,jury">
 
     <!-- PHOTO -->
     <img  src="images/Prof.Mohamed Emad.JPG"
@@ -2332,7 +2347,8 @@ this project contains three exhibition halls , a library and a theater and the e
 
   <!-- ──────────────────────────────────────── Professor 2 -->
   <div id="professor-2"
-       data-id="Prof. Maged Kamal">
+       data-id="Prof. Maged Kamal"
+       data-groups="material,jury">
 
     <img  src="images\Prof. Maged Kamal.jpeg"
           alt="Prof. Maged Kamal">
@@ -2344,12 +2360,97 @@ this project contains three exhibition halls , a library and a theater and the e
 
   <!-- ──────────────────────────────────────── Professor 3 -->
   <div id="professor-3"
-       data-id="Prof. Dalia Wagih">
+       data-id="Prof. Dalia Wagih"
+       data-groups="material,jury">
 
     <img  src="images\Prof. Dalia Wagih.jpeg"
           alt="Prof. Dalia Wagih">
     <h3>Prof. Dalia Wagih</h3>
     <p class="professor-email">Dalia_said@m-eng.helwan.edu.eg</p>
+
+  </div>
+
+  <!-- ════════ JURY COMMITTEE — ADDITIONAL MEMBERS ════════
+       6 more members of the Jury Committee (in addition to the
+       3 subject professors above, who already count as jury
+       members). Fill in each block below with the real name,
+       photo, title and email. -->
+
+  <!-- ──────────────────────────────────────── Professor 4 -->
+  <div id="professor-4"
+       data-id="Prof. Jury Member 4"
+       data-groups="jury">
+
+    <img  src="images/placeholder.jpg"
+          alt="Jury Member 4">
+    <h3>Add Name Here</h3>
+    <p class="professor-title">Jury Member</p>
+    <p class="professor-email">add-email@example.com</p>
+
+  </div>
+
+  <!-- ──────────────────────────────────────── Professor 5 -->
+  <div id="professor-5"
+       data-id="Prof. Jury Member 5"
+       data-groups="jury">
+
+    <img  src="images/placeholder.jpg"
+          alt="Jury Member 5">
+    <h3>Add Name Here</h3>
+    <p class="professor-title">Jury Member</p>
+    <p class="professor-email">add-email@example.com</p>
+
+  </div>
+
+  <!-- ──────────────────────────────────────── Professor 6 -->
+  <div id="professor-6"
+       data-id="Prof. Jury Member 6"
+       data-groups="jury">
+
+    <img  src="images/placeholder.jpg"
+          alt="Jury Member 6">
+    <h3>Add Name Here</h3>
+    <p class="professor-title">Jury Member</p>
+    <p class="professor-email">add-email@example.com</p>
+
+  </div>
+
+  <!-- ──────────────────────────────────────── Professor 7 -->
+  <div id="professor-7"
+       data-id="Prof. Jury Member 7"
+       data-groups="jury">
+
+    <img  src="images/placeholder.jpg"
+          alt="Jury Member 7">
+    <h3>Add Name Here</h3>
+    <p class="professor-title">Jury Member</p>
+    <p class="professor-email">add-email@example.com</p>
+
+  </div>
+
+  <!-- ──────────────────────────────────────── Professor 8 -->
+  <div id="professor-8"
+       data-id="Prof. Jury Member 8"
+       data-groups="jury">
+
+    <img  src="images/placeholder.jpg"
+          alt="Jury Member 8">
+    <h3>Add Name Here</h3>
+    <p class="professor-title">Jury Member</p>
+    <p class="professor-email">add-email@example.com</p>
+
+  </div>
+
+  <!-- ──────────────────────────────────────── Professor 9 -->
+  <div id="professor-9"
+       data-id="Prof. Jury Member 9"
+       data-groups="jury">
+
+    <img  src="images/placeholder.jpg"
+          alt="Jury Member 9">
+    <h3>Add Name Here</h3>
+    <p class="professor-title">Jury Member</p>
+    <p class="professor-email">add-email@example.com</p>
 
   </div>
 
@@ -2568,6 +2669,7 @@ function loadProfessors() {
     email   : el.querySelector('.professor-email')?.textContent.trim()  || '',
     bio     : el.querySelector('.professor-bio')?.textContent.trim()    || '',
     role    : 'Professor',
+    groups  : (el.dataset.groups || 'material').split(',').map(g => g.trim()),
     portrait: el.querySelector('h3').textContent.trim().split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase(),
   }));
 }
@@ -2707,6 +2809,17 @@ function projectCard(p) {
 /* ============================================================
    LISTING PAGES
    ============================================================ */
+function groupSection(title, body, people, type) {
+  if (!people.length) return '';
+  return `<section class="registry-group reveal">
+    <div class="registry-group-heading">
+      <p class="kicker">${title}</p>
+      <p class="registry-group-desc">${body}</p>
+    </div>
+    <div class="cards-grid">${people.map(p => staffCard(p, type)).join('')}</div>
+  </section>`;
+}
+
 function listing(type) {
   const labels = {
     students  : ['Student Registry','Graduating Candidates','31 graduating students across Architecture and Environmental Design — each card opens a full profile with linked project.'],
@@ -2718,6 +2831,13 @@ function listing(type) {
     return `${pageIntro(...labels[type])}<section class="project-list">${projects.map(projectCard).join('')}</section>`;
   if (type === 'students')
     return `${pageIntro(...labels[type])}<section class="cards-grid">${students.map(s => studentCard(s)).join('')}</section>`;
+  if (type === 'professors') {
+    const materialProfs = professors.filter(p => p.groups.includes('material'));
+    const juryProfs     = professors.filter(p => p.groups.includes('jury'));
+    return `${pageIntro(...labels[type])}
+      ${groupSection('Subject Professors','Academic staff responsible for course supervision and studio guidance.', materialProfs, type)}
+      ${groupSection('Jury Committee','The full graduation jury panel, including the subject professors and additional jury members.', juryProfs, type)}`;
+  }
   return `${pageIntro(...labels[type])}<section class="cards-grid">${collections[type].map(p => staffCard(p, type)).join('')}</section>`;
 }
 
